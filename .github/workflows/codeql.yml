@@ -1,15 +1,11 @@
 name: CodeQL Scan
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  analyze:
-    name: Analyze
+  codeql:
+    name: CodeQL Analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,21 +14,21 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '11' 
-          distribution: 'temurin' 
+          java-version: '11' # Adjust to your project's Java version
+          distribution: 'temurin' # Adjust based on your preference
 
       - name: Build with Maven
-        run: mvn clean install 
+        run: mvn clean install # Run your Maven build here
 
       - name: Initialize CodeQL
         uses: github/codeql-action/setup@v2
         with:
-          languages: java 
+          languages: java # Specify the languages you want to analyze
+
       - name: Analyze code
         uses: github/codeql-action/analyze@v2
         with:
           upload: false # Disable uploading results
-        
 
       - name: Output CodeQL results
         run: |
